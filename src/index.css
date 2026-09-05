@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -105,3 +105,34 @@ html {
 .animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
 .animate-candle { animation: candleFlicker 0.3s ease-in-out infinite; }
 .animate-nebula { animation: nebulaPulse 4s ease-in-out infinite; }
+
+/* Gritty cinematic & sparkler effects */
+@keyframes sparklerShoot {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx, 40px), var(--ty, -60px)) scale(0.2); opacity: 0; }
+}
+
+@keyframes flameHaze {
+  0%, 100% { filter: blur(0px) drop-shadow(0 0 15px #FFD700); }
+  50% { filter: blur(0.6px) drop-shadow(0 0 25px #FF4500); }
+}
+
+@keyframes screenRumble {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+  40% { transform: translate(3px, -2px) rotate(0.5deg); }
+  60% { transform: translate(-2px, -3px) rotate(-0.3deg); }
+  80% { transform: translate(2px, 3px) rotate(0.3deg); }
+}
+
+.gritty-vignette {
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 5, 0.75) 85%, #000004 100%);
+}
+
+.gritty-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.animate-rumble {
+  animation: screenRumble 0.4s ease-in-out;
+}

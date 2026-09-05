@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Phase1Preloader from './phases/Phase1Preloader'
 import Phase2Spark from './phases/Phase2Spark'
@@ -15,9 +15,9 @@ export default function App() {
   const advance = () => setPhase(p => p + 1)
 
   const pageVariants = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.8 } },
-    exit: { opacity: 0, transition: { duration: 0.6 } },
+    initial: { opacity: 0, scale: 0.94 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+    exit: { opacity: 0, scale: 1.1, filter: 'blur(4px)', transition: { duration: 0.6, ease: 'easeInOut' } },
   }
 
   return (
