@@ -1,0 +1,107 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000008;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+  user-select: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #000008;
+}
+::-webkit-scrollbar-thumb {
+  background: #8B5CF6;
+  border-radius: 2px;
+}
+
+/* Glow utilities */
+.glow-green {
+  text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14, 0 0 40px #39FF14;
+}
+.glow-violet {
+  text-shadow: 0 0 10px #8B5CF6, 0 0 20px #8B5CF6, 0 0 40px #8B5CF6;
+}
+.glow-gold {
+  text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 40px #FFD700;
+}
+.box-glow-green {
+  box-shadow: 0 0 20px #39FF14, 0 0 40px #39FF14, inset 0 0 20px rgba(57,255,20,0.1);
+}
+.box-glow-violet {
+  box-shadow: 0 0 20px #8B5CF6, 0 0 40px #8B5CF6, inset 0 0 20px rgba(139,92,246,0.1);
+}
+.box-glow-gold {
+  box-shadow: 0 0 20px #FFD700, 0 0 50px #FFD700;
+}
+
+/* Chibi-style rounded corners */
+.chibi-card {
+  border-radius: 20px;
+  border: 2px solid rgba(139, 92, 246, 0.5);
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(-5px) rotate(-1deg); }
+}
+@keyframes floatStar {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.05); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+@keyframes orbitSpin {
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+@keyframes candleFlicker {
+  0%, 100% { transform: scaleX(1) scaleY(1) rotate(-2deg); opacity: 1; }
+  25% { transform: scaleX(0.85) scaleY(1.1) rotate(3deg); opacity: 0.9; }
+  50% { transform: scaleX(1.1) scaleY(0.9) rotate(-1deg); opacity: 1; }
+  75% { transform: scaleX(0.9) scaleY(1.05) rotate(2deg); opacity: 0.95; }
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+@keyframes sparkle {
+  0% { transform: scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+}
+@keyframes nebulaPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+@keyframes starTravel {
+  from { transform: translateX(-60px); }
+  to { transform: translateX(100vw); }
+}
+
+.animate-float { animation: float 3.5s ease-in-out infinite; }
+.animate-float-star { animation: floatStar 4s ease-in-out infinite; }
+.animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
+.animate-candle { animation: candleFlicker 0.3s ease-in-out infinite; }
+.animate-nebula { animation: nebulaPulse 4s ease-in-out infinite; }
