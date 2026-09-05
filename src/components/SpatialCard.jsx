@@ -1,4 +1,4 @@
-﻿import { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 export default function SpatialCard({ children, className = '', glowColor = '#8B5CF6' }) {
@@ -9,13 +9,13 @@ export default function SpatialCard({ children, className = '', glowColor = '#8B
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  // Spring physics for buttery smooth response (like LiquidInk)
-  const mouseXSpring = useSpring(x, { stiffness: 180, damping: 18 })
-  const mouseYSpring = useSpring(y, { stiffness: 180, damping: 18 })
+  // Spring physics for responsive feel
+  const mouseXSpring = useSpring(x, { stiffness: 160, damping: 18 })
+  const mouseYSpring = useSpring(y, { stiffness: 160, damping: 18 })
 
   // Transform coordinates to degree tilts
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['14deg', '-14deg'])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-14deg', '14deg'])
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg'])
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg'])
 
   // Dynamic light glare position across the glass
   const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ['0%', '100%'])
@@ -56,41 +56,48 @@ export default function SpatialCard({ children, className = '', glowColor = '#8B
           rotateY,
           transformStyle: 'preserve-3d',
         }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="relative w-full rounded-2xl overflow-hidden transition-shadow duration-300"
+        whileHover={{ scale: 1.015 }}
+        whileTap={{ scale: 0.985 }}
+        className="relative w-full rounded-xl overflow-visible transition-shadow duration-300"
       >
-        {/* Frosted glass backdrop with dynamic glow */}
+        {/* Sleek anime outer rim */}
         <div
-          className="relative w-full rounded-2xl p-[2px] transition-all duration-300"
+          className="relative w-full rounded-xl p-[1px] transition-all duration-500"
           style={{
-            background: `linear-gradient(135deg, ${glowColor}90 0%, rgba(57,255,20,0.4) 50%, ${glowColor}60 100%)`,
+            background: `linear-gradient(135deg, ${glowColor}B0 0%, rgba(255,255,255,0.2) 50%, rgba(16,185,129,0.5) 100%)`,
             boxShadow: isHovered
-              ? `0 20px 40px -10px ${glowColor}50, 0 0 35px rgba(57,255,20,0.25)`
-              : `0 10px 30px -10px ${glowColor}30, 0 0 20px rgba(139,92,246,0.2)`,
+              ? `0 25px 50px -12px ${glowColor}40, 0 0 35px rgba(16,185,129,0.25)`
+              : `0 15px 35px -10px rgba(0,0,0,0.8), 0 0 25px ${glowColor}20`,
           }}
         >
+          {/* Main glass surface */}
           <div
-            className="w-full h-full rounded-[14px] bg-[#0c081e]/85 backdrop-blur-xl relative overflow-hidden"
-            style={{ transform: 'translateZ(20px)' }}
+            className="w-full h-full rounded-[11px] bg-[#070318]/90 backdrop-blur-2xl relative overflow-hidden p-0.5"
+            style={{ transform: 'translateZ(15px)' }}
           >
-            {/* Dynamic specular glare (LiquidInk lighting sheen) */}
+            {/* Dynamic specular glare reflection */}
             <motion.div
-              className="absolute inset-0 pointer-events-none z-30 opacity-0 transition-opacity duration-300"
+              className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-300"
               style={{
-                opacity: isHovered ? 0.35 : 0,
-                background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.8) 0%, transparent 60%)`,
+                opacity: isHovered ? 0.35 : 0.08,
+                background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.9) 0%, transparent 60%)`,
               }}
             />
 
-            {/* Subtle starlight grid texture */}
+            {/* Anime subtle grid line art */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-5"
+              className="absolute inset-0 pointer-events-none opacity-10"
               style={{
-                backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
-                backgroundSize: '16px 16px',
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
               }}
             />
+
+            {/* Geometric anime corner brackets */}
+            <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-white/40 pointer-events-none z-20" />
+            <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/40 pointer-events-none z-20" />
+            <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-white/40 pointer-events-none z-20" />
+            <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-white/40 pointer-events-none z-20" />
 
             {children}
           </div>

@@ -9,12 +9,13 @@
 }
 
 body {
-  background: #000008;
-  color: white;
-  font-family: 'Nunito', sans-serif;
+  background: #02000d;
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   cursor: default;
   user-select: none;
+  letter-spacing: 0.015em;
 }
 
 html {
@@ -26,113 +27,83 @@ html {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #000008;
+  background: #02000d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #8B5CF6;
+  background: #6366f1;
   border-radius: 2px;
 }
 
-/* Glow utilities */
-.glow-green {
-  text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14, 0 0 40px #39FF14;
-}
-.glow-violet {
-  text-shadow: 0 0 10px #8B5CF6, 0 0 20px #8B5CF6, 0 0 40px #8B5CF6;
-}
-.glow-gold {
-  text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 40px #FFD700;
-}
-.box-glow-green {
-  box-shadow: 0 0 20px #39FF14, 0 0 40px #39FF14, inset 0 0 20px rgba(57,255,20,0.1);
-}
-.box-glow-violet {
-  box-shadow: 0 0 20px #8B5CF6, 0 0 40px #8B5CF6, inset 0 0 20px rgba(139,92,246,0.1);
-}
-.box-glow-gold {
-  box-shadow: 0 0 20px #FFD700, 0 0 50px #FFD700;
+/* Anime Glass & Hologram styles */
+.anime-glass {
+  background: rgba(10, 6, 28, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Chibi-style rounded corners */
-.chibi-card {
-  border-radius: 20px;
-  border: 2px solid rgba(139, 92, 246, 0.5);
+.anime-glass-card {
+  background: linear-gradient(135deg, rgba(20, 10, 45, 0.7) 0%, rgba(6, 3, 20, 0.85) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.15);
 }
 
-/* Float animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-10px) rotate(1deg); }
-  66% { transform: translateY(-5px) rotate(-1deg); }
-}
-@keyframes floatStar {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-15px) scale(1.05); }
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-@keyframes orbitSpin {
-  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
-}
-@keyframes candleFlicker {
-  0%, 100% { transform: scaleX(1) scaleY(1) rotate(-2deg); opacity: 1; }
-  25% { transform: scaleX(0.85) scaleY(1.1) rotate(3deg); opacity: 0.9; }
-  50% { transform: scaleX(1.1) scaleY(0.9) rotate(-1deg); opacity: 1; }
-  75% { transform: scaleX(0.9) scaleY(1.05) rotate(2deg); opacity: 0.95; }
-}
-@keyframes confettiFall {
-  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-}
-@keyframes sparkle {
-  0% { transform: scale(0) rotate(0deg); opacity: 1; }
-  100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
-}
-@keyframes nebulaPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
-}
-@keyframes starTravel {
-  from { transform: translateX(-60px); }
-  to { transform: translateX(100vw); }
+/* Shinkai Twilight Glows */
+.anime-glow-text {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.7), 0 0 40px rgba(57, 255, 20, 0.4);
 }
 
-.animate-float { animation: float 3.5s ease-in-out infinite; }
-.animate-float-star { animation: floatStar 4s ease-in-out infinite; }
-.animate-twinkle { animation: twinkle 2s ease-in-out infinite; }
-.animate-candle { animation: candleFlicker 0.3s ease-in-out infinite; }
-.animate-nebula { animation: nebulaPulse 4s ease-in-out infinite; }
-
-/* Gritty cinematic & sparkler effects */
-@keyframes sparklerShoot {
-  0% { transform: translate(0, 0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--tx, 40px), var(--ty, -60px)) scale(0.2); opacity: 0; }
+.anime-gold-glow {
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.8), 0 0 35px rgba(245, 158, 11, 0.4);
 }
 
-@keyframes flameHaze {
-  0%, 100% { filter: blur(0px) drop-shadow(0 0 15px #FFD700); }
-  50% { filter: blur(0.6px) drop-shadow(0 0 25px #FF4500); }
+.anime-cyan-glow {
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.8), 0 0 30px rgba(16, 185, 129, 0.5);
+}
+
+/* Elegant line & astrolabe effects */
+@keyframes celestialSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shootingStar {
+  0% { transform: translateX(0) translateY(0) scale(0); opacity: 0; }
+  10% { opacity: 1; scale: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(500px) translateY(500px) scale(0.2); opacity: 0; }
+}
+
+@keyframes prismFlash {
+  0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.6)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 35px rgba(57, 255, 20, 0.8)); }
 }
 
 @keyframes screenRumble {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  20% { transform: translate(-3px, 2px) rotate(-0.5deg); }
-  40% { transform: translate(3px, -2px) rotate(0.5deg); }
-  60% { transform: translate(-2px, -3px) rotate(-0.3deg); }
-  80% { transform: translate(2px, 3px) rotate(0.3deg); }
+  20% { transform: translate(-3px, 2px) rotate(-0.4deg); }
+  40% { transform: translate(3px, -2px) rotate(0.4deg); }
+  60% { transform: translate(-2px, -3px) rotate(-0.2deg); }
+  80% { transform: translate(2px, 3px) rotate(0.2deg); }
 }
 
-.gritty-vignette {
-  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 5, 0.75) 85%, #000004 100%);
-}
-
-.gritty-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+.animate-celestial {
+  animation: celestialSpin 60s linear infinite;
 }
 
 .animate-rumble {
   animation: screenRumble 0.4s ease-in-out;
+}
+
+/* Film Grain Overlay */
+.anime-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Vignette */
+.anime-vignette {
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(2, 0, 13, 0.8) 90%, #02000d 100%);
 }

@@ -1,12 +1,12 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Starfield from '../components/Starfield'
 
 const planets = [
-  { name: 'Mars', x: '12%', y: '45%', size: 36, color: '#CD5C5C', glow: '#CD5C5C' },
-  { name: 'Jupiter', x: '25%', y: '30%', size: 60, color: '#C88B3A', glow: '#C88B3A' },
-  { name: 'Saturn', x: '60%', y: '25%', size: 52, color: '#D4AF37', glow: '#D4AF37', hasRing: true },
-  { name: 'Neptune', x: '80%', y: '50%', size: 38, color: '#4169E1', glow: '#4169E1' },
+  { name: 'Mars', x: '14%', y: '45%', size: 32, color: '#f87171', glow: '#ef4444' },
+  { name: 'Jupiter', x: '26%', y: '28%', size: 56, color: '#fcd34d', glow: '#f59e0b' },
+  { name: 'Saturn', x: '62%', y: '22%', size: 48, color: '#fed7aa', glow: '#fb923c', hasRing: true },
+  { name: 'Neptune', x: '82%', y: '48%', size: 36, color: '#60a5fa', glow: '#3b82f6' },
 ]
 
 export default function Phase5SolarSystem({ onComplete }) {
@@ -21,51 +21,62 @@ export default function Phase5SolarSystem({ onComplete }) {
   }
 
   return (
-    <div className="relative w-full min-h-screen bg-[#000008] overflow-hidden flex flex-col items-center justify-center">
-      <Starfield count={250} speed={0.1} />
+    <div className="relative w-full min-h-screen bg-[#02000d] overflow-hidden flex flex-col items-center justify-center px-4">
+      <Starfield count={260} speed={0.15} />
 
-      {/* Distant Sun glow */}
+      {/* Atmospheric Solar Glow */}
       <div
         className="absolute pointer-events-none rounded-full"
         style={{
-          width: '200px', height: '200px',
-          left: '-60px', top: '50%', transform: 'translateY(-50%)',
-          background: 'radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,165,0,0.5) 30%, transparent 70%)',
+          width: '350px', height: '350px',
+          left: '-100px', top: '50%', transform: 'translateY(-50%)',
+          background: 'radial-gradient(circle, rgba(251,191,36,0.3) 0%, rgba(245,158,11,0.1) 45%, transparent 70%)',
         }}
       />
 
       {/* Header text */}
       <motion.div
-        className="relative z-10 text-center mb-4 px-4 max-w-2xl"
+        className="relative z-10 text-center mb-6 max-w-2xl"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
+        transition={{ delay: 0.25, duration: 0.8 }}
       >
-        <h2 className="text-2xl md:text-4xl font-bold font-['Cinzel'] text-white mb-2" style={{
-          textShadow: '0 0 20px rgba(57,255,20,0.6)',
-        }}>
-          Our Solar System
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span className="w-6 h-[1px] bg-cyan-400/50" />
+          <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-cyan-400">
+            SOLAR SYSTEM // ORBITAL ENTRY
+          </span>
+          <span className="w-6 h-[1px] bg-cyan-400/50" />
+        </div>
+
+        <h2 className="text-3xl md:text-5xl font-cinzel font-bold text-white mb-2 drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+          Terra In Sight
         </h2>
-        <p className="text-white/60 font-['Nunito'] text-base md:text-lg">
-          You are now entering the world, destined to lighten up the whole universe...
+        <p className="text-slate-300 font-serif italic text-base md:text-lg">
+          &ldquo;You are now entering this world, destined to illuminate the lives around you...&rdquo;
         </p>
       </motion.div>
 
       {/* Solar system scene */}
-      <div className="relative w-full max-w-4xl h-64 md:h-80 z-10">
+      <div className="relative w-full max-w-4xl h-72 md:h-84 z-10 flex items-center justify-center">
+        {/* Orbital Trajectory Lines */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 800 400">
+          <ellipse cx="400" cy="200" rx="360" ry="120" stroke="#60a5fa" strokeWidth="0.8" fill="none" strokeDasharray="5 5" />
+          <ellipse cx="400" cy="200" rx="260" ry="85" stroke="#a78bfa" strokeWidth="0.8" fill="none" strokeDasharray="3 3" />
+        </svg>
 
-        {/* Other planets */}
+        {/* Other planets with soft anime glow */}
         {planets.map((planet, i) => (
           <motion.div
             key={planet.name}
             className="absolute pointer-events-none"
             style={{ left: planet.x, top: planet.y, transform: 'translate(-50%, -50%)' }}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 0.7, scale: 1, y: [0, -6, 0] }}
+            animate={{ opacity: 0.85, scale: 1, y: [0, -5, 0] }}
             transition={{
               opacity: { delay: 0.4 + i * 0.1, duration: 0.6 },
               scale: { delay: 0.4 + i * 0.1, duration: 0.6 },
-              y: { duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 },
+              y: { duration: 3.5 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 },
             }}
           >
             <div className="relative flex flex-col items-center">
@@ -73,132 +84,144 @@ export default function Phase5SolarSystem({ onComplete }) {
                 className="rounded-full"
                 style={{
                   width: planet.size, height: planet.size,
-                  background: `radial-gradient(circle at 35% 35%, white, ${planet.color})`,
-                  boxShadow: `0 0 15px ${planet.glow}60`,
+                  background: `radial-gradient(circle at 30% 30%, #ffffff 0%, ${planet.color} 50%, #000 100%)`,
+                  boxShadow: `0 0 15px ${planet.glow}50`,
                 }}
               />
               {planet.hasRing && (
                 <div
                   className="absolute"
                   style={{
-                    width: planet.size * 1.9, height: planet.size * 0.35,
+                    width: planet.size * 2, height: planet.size * 0.38,
                     top: '50%', left: '50%',
                     transform: 'translate(-50%, -50%) rotateX(75deg)',
-                    border: `4px solid ${planet.color}80`,
+                    border: `3px solid ${planet.color}80`,
                     borderRadius: '50%',
                     pointerEvents: 'none',
                   }}
                 />
               )}
-              <span className="text-white/30 text-xs mt-1 font-['Nunito']">{planet.name}</span>
+              <span className="text-slate-500 text-[10px] font-mono mt-1.5 uppercase tracking-wider">{planet.name}</span>
             </div>
           </motion.div>
         ))}
 
-        {/* Earth - the clickable one */}
+        {/* Majestic Anime Earth */}
         <motion.div
-          className="absolute cursor-pointer"
+          className="absolute cursor-pointer select-none"
           style={{ left: '46%', top: '50%', transform: 'translate(-50%, -50%)' }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+          initial={{ opacity: 0, scale: 0.2 }}
+          animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
           transition={{
-            opacity: { delay: 0.8, duration: 0.8 },
-            scale: { delay: 0.8, duration: 0.8, type: 'spring' },
-            y: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
+            opacity: { delay: 0.6, duration: 0.8 },
+            scale: { delay: 0.6, duration: 0.8, type: 'spring', stiffness: 140 },
+            y: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
           }}
           onClick={handleEarthClick}
           whileHover={{ scale: 1.12 }}
           whileTap={{ scale: 0.95 }}
         >
-          <div className="flex flex-col items-center gap-2">
-            {/* Earth SVG */}
-            <div className="relative" style={{ width: '90px', height: '90px' }}>
-              <svg viewBox="0 0 90 90" className="w-full h-full">
+          <div className="flex flex-col items-center gap-3">
+            {/* Earth Sphere with Atmospheric Rim */}
+            <div className="relative" style={{ width: '100px', height: '100px' }}>
+              <svg viewBox="0 0 100 100" className="w-full h-full">
                 <defs>
-                  <radialGradient id="earthGrad" cx="35%" cy="35%" r="65%">
-                    <stop offset="0%" stopColor="#87CEEB" />
-                    <stop offset="30%" stopColor="#1E90FF" />
-                    <stop offset="70%" stopColor="#006400" />
-                    <stop offset="100%" stopColor="#00008B" />
+                  {/* Planet sphere gradient */}
+                  <radialGradient id="earthSphere" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor="#93c5fd" />
+                    <stop offset="25%" stopColor="#3b82f6" />
+                    <stop offset="60%" stopColor="#1e3a8a" />
+                    <stop offset="100%" stopColor="#030712" />
                   </radialGradient>
-                  <radialGradient id="earthGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="60%" stopColor="transparent" />
-                    <stop offset="100%" stopColor="rgba(57,255,20,0.5)" />
+                  {/* Atmospheric cyan rim */}
+                  <radialGradient id="atmoRim" cx="40%" cy="35%" r="65%">
+                    <stop offset="65%" stopColor="transparent" />
+                    <stop offset="95%" stopColor="rgba(0, 240, 255, 0.7)" />
+                    <stop offset="100%" stopColor="rgba(59, 130, 246, 0.9)" />
                   </radialGradient>
                 </defs>
-                <circle cx="45" cy="45" r="40" fill="url(#earthGrad)" />
-                {/* Continents */}
-                <ellipse cx="35" cy="38" rx="12" ry="8" fill="rgba(34,139,34,0.8)" transform="rotate(-15 35 38)" />
-                <ellipse cx="55" cy="42" rx="8" ry="12" fill="rgba(34,139,34,0.7)" transform="rotate(20 55 42)" />
-                <ellipse cx="45" cy="58" rx="10" ry="6" fill="rgba(34,139,34,0.6)" />
-                {/* Glow */}
-                <circle cx="45" cy="45" r="44" fill="url(#earthGlow)" />
+
+                {/* Ocean Sphere */}
+                <circle cx="50" cy="50" r="44" fill="url(#earthSphere)" />
+
+                {/* Stylized Continents */}
+                <path
+                  d="M32,36 Q45,28 56,38 Q62,48 48,52 Q35,58 28,48 Z"
+                  fill="#10b981"
+                  opacity="0.8"
+                />
+                <path
+                  d="M58,45 Q70,42 66,58 Q55,68 50,58 Z"
+                  fill="#10b981"
+                  opacity="0.75"
+                />
+
+                {/* Soft White Cloud Swirls */}
+                <path
+                  d="M26,38 Q42,32 58,42"
+                  stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.65" fill="none"
+                />
+                <path
+                  d="M40,55 Q56,58 72,50"
+                  stroke="#ffffff" strokeWidth="2" strokeLinecap="round" opacity="0.6" fill="none"
+                />
+
+                {/* Atmospheric Glow Rim */}
+                <circle cx="50" cy="50" r="48" fill="url(#atmoRim)" />
               </svg>
-              {/* Pulsing glow ring */}
+
+              {/* Pulsing Target Halo */}
               <motion.div
                 className="absolute inset-0 rounded-full pointer-events-none"
-                animate={{ boxShadow: [
-                  '0 0 20px rgba(57,255,20,0.6), 0 0 40px rgba(57,255,20,0.3)',
-                  '0 0 40px rgba(57,255,20,0.9), 0 0 80px rgba(57,255,20,0.5)',
-                  '0 0 20px rgba(57,255,20,0.6), 0 0 40px rgba(57,255,20,0.3)',
-                ]}}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                animate={{
+                  boxShadow: [
+                    '0 0 25px rgba(0, 240, 255, 0.4), 0 0 50px rgba(59, 130, 246, 0.2)',
+                    '0 0 45px rgba(0, 240, 255, 0.75), 0 0 80px rgba(59, 130, 246, 0.45)',
+                    '0 0 25px rgba(0, 240, 255, 0.4), 0 0 50px rgba(59, 130, 246, 0.2)',
+                  ],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
               />
             </div>
-            <motion.span
-              className="text-sm font-bold font-['Nunito'] glow-green"
-              style={{ color: '#39FF14' }}
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              ▼ EARTH ▼
-            </motion.span>
-          </div>
-        </motion.div>
 
-        {/* Asteroid belt hint */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{ left: '35%', top: '50%' }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        >
-          {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-white/30"
-              style={{
-                left: `${Math.cos((angle * Math.PI) / 180) * 130}px`,
-                top: `${Math.sin((angle * Math.PI) / 180) * 130}px`,
-              }}
-            />
-          ))}
+            {/* Target Label */}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-400/40 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+              <span className="text-[11px] font-mono font-bold tracking-[0.2em] text-cyan-300">
+                TERRA // TARGET
+              </span>
+            </div>
+          </div>
         </motion.div>
       </div>
 
-      {/* Click prompt */}
+      {/* Action Prompt */}
       {!earthClicked && (
         <motion.p
-          className="relative z-10 text-white/50 text-sm font-['Nunito'] tracking-widest mt-4"
-          animate={{ opacity: [0.4, 1, 0.4] }}
+          className="relative z-10 text-slate-400/70 text-xs font-mono uppercase tracking-[0.25em] mt-4"
+          animate={{ opacity: [0.4, 0.9, 0.4] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          ✦ Click Earth to continue ✦
+          ✦ touch earth to commence atmospheric entry ✦
         </motion.p>
       )}
 
-      {/* Impact effect */}
+      {/* Atmospheric Entry Shockwave */}
       <AnimatePresence>
         {impacting && (
           <motion.div
-            className="absolute inset-0 z-30 pointer-events-none"
+            className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.8, 0.3, 0] }}
-            transition={{ duration: 1.5 }}
-            style={{
-              background: 'radial-gradient(ellipse at center, rgba(57,255,20,0.8) 0%, rgba(139,92,246,0.6) 30%, transparent 70%)',
-            }}
-          />
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-4 h-4 rounded-full bg-white shadow-[0_0_50px_#fff]"
+              initial={{ scale: 1, opacity: 1 }}
+              animate={{ scale: [1, 40, 80], opacity: [1, 0.9, 0] }}
+              transition={{ duration: 1.5, ease: 'easeIn' }}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Starfield from '../components/Starfield'
 
@@ -6,7 +6,7 @@ export default function Phase1Preloader({ onComplete }) {
   const [fadeOut, setFadeOut] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setFadeOut(true), 3000)
+    const t = setTimeout(() => setFadeOut(true), 3200)
     return () => clearTimeout(t)
   }, [])
 
@@ -22,136 +22,149 @@ export default function Phase1Preloader({ onComplete }) {
       {!fadeOut && (
         <motion.div
           key="preloader"
-          className="relative w-full min-h-screen bg-[#000008] flex items-center justify-center overflow-hidden"
+          className="relative w-full min-h-screen bg-[#02000d] flex flex-col items-center justify-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          exit={{ opacity: 0, scale: 1.05, filter: 'blur(6px)' }}
+          transition={{ duration: 0.9 }}
         >
-          <Starfield count={300} speed={0.1} />
+          <Starfield count={260} speed={0.2} />
 
-          {/* Parallax nebula layers */}
+          {/* Deep Twilight Nebulae */}
           <div className="absolute inset-0 pointer-events-none">
             <div
-              className="absolute rounded-full animate-nebula"
+              className="absolute rounded-full"
+              style={{
+                width: '700px', height: '500px',
+                top: '5%', left: '0%',
+                background: 'radial-gradient(ellipse, rgba(139,92,246,0.18) 0%, transparent 65%)',
+              }}
+            />
+            <div
+              className="absolute rounded-full"
               style={{
                 width: '600px', height: '400px',
-                top: '10%', left: '5%',
-                background: 'radial-gradient(ellipse, rgba(139,92,246,0.15) 0%, transparent 70%)',
-                animationDelay: '0s',
-              }}
-            />
-            <div
-              className="absolute rounded-full animate-nebula"
-              style={{
-                width: '500px', height: '300px',
-                bottom: '15%', right: '10%',
-                background: 'radial-gradient(ellipse, rgba(57,255,20,0.12) 0%, transparent 70%)',
-                animationDelay: '2s',
-              }}
-            />
-            <div
-              className="absolute rounded-full animate-nebula"
-              style={{
-                width: '350px', height: '350px',
-                top: '40%', right: '20%',
-                background: 'radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%)',
-                animationDelay: '1s',
+                bottom: '10%', right: '5%',
+                background: 'radial-gradient(ellipse, rgba(16,185,129,0.14) 0%, transparent 65%)',
               }}
             />
           </div>
 
-          {/* The baby star traveling from deep space */}
+          {/* Ethereal Anime Celestial Core / Star Seed */}
           <motion.div
             className="relative z-10 flex items-center justify-center"
-            initial={{ scale: 0.05, opacity: 0, x: -100, y: 80 }}
-            animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 2.5, ease: 'easeOut' }}
+            initial={{ scale: 0.1, opacity: 0, y: 30 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Outer glow ring */}
+            {/* Concentric Rotating Astrolabe Rings */}
             <motion.div
-              className="absolute rounded-full"
-              style={{ width: '160px', height: '160px' }}
-              animate={{
-                boxShadow: [
-                  '0 0 30px 10px rgba(57,255,20,0.3)',
-                  '0 0 60px 20px rgba(139,92,246,0.4)',
-                  '0 0 30px 10px rgba(57,255,20,0.3)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute rounded-full border border-violet-400/30"
+              style={{ width: '220px', height: '220px' }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-violet-400" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            </motion.div>
+
+            <motion.div
+              className="absolute rounded-full border border-emerald-400/20"
+              style={{ width: '170px', height: '170px' }}
+              animate={{ rotate: -360 }}
+              transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
             />
 
-            {/* Chibi star SVG */}
+            {/* Radiant Celestial Halo */}
             <motion.div
-              style={{ width: '100px', height: '100px', position: 'relative', zIndex: 10 }}
-              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.06, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute rounded-full"
+              style={{ width: '130px', height: '130px' }}
+              animate={{
+                boxShadow: [
+                  '0 0 35px 10px rgba(139,92,246,0.4), 0 0 70px 25px rgba(16,185,129,0.25)',
+                  '0 0 55px 20px rgba(16,185,129,0.5), 0 0 90px 35px rgba(139,92,246,0.35)',
+                  '0 0 35px 10px rgba(139,92,246,0.4), 0 0 70px 25px rgba(16,185,129,0.25)',
+                ],
+              }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* Glowing Diamond Prism Core */}
+            <motion.div
+              className="relative z-10"
+              animate={{
+                rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360],
+                scale: [1, 1.08, 1],
+              }}
+              transition={{
+                rotate: { duration: 24, repeat: Infinity, ease: 'linear' },
+                scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+              }}
             >
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Star body */}
-                <polygon
-                  points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35"
-                  fill="url(#starGrad)"
-                  stroke="#8B5CF6"
-                  strokeWidth="2"
-                />
-                {/* Chibi face */}
-                <circle cx="43" cy="47" r="4" fill="#000008" />
-                <circle cx="57" cy="47" r="4" fill="#000008" />
-                <circle cx="44.5" cy="45.5" r="1.5" fill="white" />
-                <circle cx="58.5" cy="45.5" r="1.5" fill="white" />
-                <path d="M44 55 Q50 60 56 55" stroke="#000008" strokeWidth="2" strokeLinecap="round" fill="none" />
-                {/* Sparkle accents */}
-                <circle cx="20" cy="20" r="2" fill="#39FF14" opacity="0.8" />
-                <circle cx="80" cy="25" r="2" fill="#8B5CF6" opacity="0.8" />
-                <circle cx="15" cy="70" r="1.5" fill="#FFD700" opacity="0.8" />
-                <circle cx="85" cy="75" r="1.5" fill="#39FF14" opacity="0.8" />
+              <svg width="74" height="74" viewBox="0 0 74 74" fill="none">
                 <defs>
-                  <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
+                  <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="40%" stopColor="#39FF14" />
-                    <stop offset="100%" stopColor="#8B5CF6" />
-                  </radialGradient>
+                    <stop offset="40%" stopColor="#6ee7b7" />
+                    <stop offset="70%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#00f0ff" />
+                  </linearGradient>
                 </defs>
+                {/* 8-pointed celestial geometric star */}
+                <polygon
+                  points="37,4 44,28 68,28 48,43 56,67 37,51 18,67 26,43 6,28 30,28"
+                  fill="url(#coreGrad)"
+                  filter="drop-shadow(0 0 12px rgba(255,255,255,0.9))"
+                />
+                <circle cx="37" cy="37" r="6" fill="#ffffff" />
               </svg>
             </motion.div>
 
-            {/* Particle trail */}
-            {[...Array(8)].map((_, i) => (
+            {/* Ethereal Stardust Embers Trail */}
+            {[...Array(12)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute rounded-full"
+                className="absolute rounded-full pointer-events-none"
                 style={{
-                  width: `${4 + i * 2}px`,
-                  height: `${4 + i * 2}px`,
-                  background: i % 2 === 0 ? '#39FF14' : '#8B5CF6',
-                  left: `${-20 - i * 12}px`,
-                  top: `${10 + i * 5}px`,
+                  width: `${2 + (i % 3)}px`,
+                  height: `${2 + (i % 3)}px`,
+                  background: i % 2 === 0 ? '#6ee7b7' : '#c084fc',
+                  boxShadow: `0 0 8px ${i % 2 === 0 ? '#6ee7b7' : '#c084fc'}`,
                 }}
                 animate={{
-                  opacity: [0.8, 0.2, 0.8],
-                  scale: [1, 0.5, 1],
+                  x: [0, (Math.cos((i * 30 * Math.PI) / 180) * 85)],
+                  y: [0, (Math.sin((i * 30 * Math.PI) / 180) * 85)],
+                  opacity: [0.9, 0],
+                  scale: [1, 0.2],
                 }}
                 transition={{
-                  duration: 1 + i * 0.2,
+                  duration: 2 + (i % 3) * 0.5,
                   repeat: Infinity,
-                  delay: i * 0.1,
-                  ease: 'easeInOut',
+                  delay: i * 0.15,
+                  ease: 'easeOut',
                 }}
               />
             ))}
           </motion.div>
 
-          {/* Bottom text */}
-          <motion.p
-            className="absolute bottom-16 text-center text-white/40 text-sm tracking-widest uppercase font-['Nunito']"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 1 }}
+          {/* Mature Cinematic Prologue Subtitles */}
+          <motion.div
+            className="absolute bottom-16 md:bottom-20 text-center px-6 z-20 flex flex-col items-center"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 1 }}
           >
-            A cosmic journey begins...
-          </motion.p>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-8 h-[1px] bg-violet-400/40" />
+              <span className="text-[10px] md:text-xs font-mono tracking-[0.35em] text-violet-300 uppercase">
+                PROLOGUE // CELESTIAL AWAKENING
+              </span>
+              <span className="w-8 h-[1px] bg-violet-400/40" />
+            </div>
+            <p className="font-serif italic text-lg md:text-2xl text-slate-200 tracking-wide max-w-md">
+              &ldquo;Across a billion lightyears, a destined light begins its journey...&rdquo;
+            </p>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

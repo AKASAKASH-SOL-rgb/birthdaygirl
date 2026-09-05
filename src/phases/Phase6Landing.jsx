@@ -1,5 +1,6 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Starfield from '../components/Starfield'
 
 export default function Phase6Landing({ onComplete }) {
   const [cracks, setCracks] = useState(0)
@@ -15,228 +16,247 @@ export default function Phase6Landing({ onComplete }) {
     }
   }
 
-  const glowColor = cracks === 0 ? '#8B5CF6' : cracks === 1 ? '#39FF14' : cracks === 2 ? '#FFD700' : '#ffffff'
-  const glowIntensity = 20 + cracks * 20
+  const glowColor = cracks === 0 ? '#a78bfa' : cracks === 1 ? '#6ee7b7' : cracks === 2 ? '#fde047' : '#ffffff'
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden flex flex-col items-end justify-start"
+    <div
+      className="relative w-full min-h-screen overflow-hidden flex flex-col items-center justify-start"
       style={{
-        background: 'linear-gradient(to bottom, #000008 0%, #050a1a 40%, #0a1a0a 100%)',
+        background: 'linear-gradient(to bottom, #030014 0%, #0a0428 50%, #050a1a 100%)',
       }}
     >
-      {/* Night sky stars */}
+      <Starfield count={220} speed={0.12} />
+
+      {/* Shinkai Twilight Atmosphere */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(120)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 60}%`,
-              width: `${Math.random() * 2 + 0.5}px`,
-              height: `${Math.random() * 2 + 0.5}px`,
-              background: 'white',
-              opacity: Math.random() * 0.7 + 0.2,
-              animation: `twinkle ${1.5 + Math.random() * 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
-          />
-        ))}
-        {/* Moon */}
+        {/* Soft violet nebula glow */}
         <div
           className="absolute rounded-full"
           style={{
-            width: '60px', height: '60px',
-            top: '8%', right: '10%',
-            background: 'radial-gradient(circle at 40% 40%, #FFF8E7, #D4C5A0)',
-            boxShadow: '0 0 20px rgba(255,248,231,0.4)',
+            width: '700px', height: '500px',
+            top: '0%', left: '50%', transform: 'translateX(-50%)',
+            background: 'radial-gradient(ellipse, rgba(139,92,246,0.2) 0%, transparent 65%)',
+          }}
+        />
+
+        {/* Ethereal Crescent Moon */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: '64px', height: '64px',
+            top: '8%', right: '12%',
+            boxShadow: '-8px 6px 0 2px #fef08a, 0 0 25px rgba(254,240,138,0.4)',
           }}
         />
       </div>
 
-      {/* Chibi grassy ground */}
-      <div className="absolute bottom-0 left-0 right-0 z-10">
-        <svg viewBox="0 0 1440 200" className="w-full" preserveAspectRatio="none">
+      {/* Silhouette Grassy Twilight Knoll */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
+        <svg viewBox="0 0 1440 220" className="w-full" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#22c55e" />
-              <stop offset="30%" stopColor="#16a34a" />
-              <stop offset="100%" stopColor="#052e16" />
+            <linearGradient id="hillGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#08031d" />
+              <stop offset="40%" stopColor="#04020f" />
+              <stop offset="100%" stopColor="#010006" />
+            </linearGradient>
+            <linearGradient id="grassBlade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#10b981" />
+              <stop offset="100%" stopColor="transparent" />
             </linearGradient>
           </defs>
-          {/* Ground base */}
-          <path d="M0,80 Q360,40 720,70 Q1080,100 1440,60 L1440,200 L0,200 Z" fill="url(#grassGrad)" />
-          {/* Grass blades */}
-          {[...Array(30)].map((_, i) => {
-            const x = i * 48 + Math.random() * 30
+
+          {/* Majestic Rolling Hill Horizon */}
+          <path d="M0,90 Q380,45 720,75 Q1060,105 1440,65 L1440,220 L0,220 Z" fill="url(#hillGrad)" />
+
+          {/* Bioluminescent Anime Grass Blades */}
+          {[...Array(40)].map((_, i) => {
+            const x = i * 36 + ((i * 17) % 20)
+            const h = 25 + ((i * 13) % 25)
             return (
-              <g key={i}>
-                <path d={`M${x},80 Q${x-8},50 ${x-5},40`} stroke="#4ade80" strokeWidth="2" fill="none" />
-                <path d={`M${x+5},78 Q${x+12},48 ${x+8},38`} stroke="#4ade80" strokeWidth="2" fill="none" />
-                <path d={`M${x+2},82 Q${x+2},55 ${x},45`} stroke="#86efac" strokeWidth="1.5" fill="none" />
-              </g>
+              <path
+                key={i}
+                d={`M${x},80 Q${x - 4},${80 - h * 0.6} ${x - 2},${80 - h}`}
+                stroke="url(#grassBlade)"
+                strokeWidth={i % 3 === 0 ? "1.8" : "1.2"}
+                fill="none"
+                opacity={0.7}
+              />
             )
           })}
-          {/* Small flowers */}
-          {[200, 500, 850, 1100, 1350].map((fx, i) => (
-            <g key={i}>
-              <circle cx={fx} cy="65" r="4" fill={i % 2 === 0 ? '#8B5CF6' : '#39FF14'} opacity="0.8" />
-              <circle cx={fx-6} cy="70" r="3" fill="white" opacity="0.6" />
-            </g>
-          ))}
         </svg>
       </div>
 
-      {/* Main content */}
-      <div className="relative z-20 w-full flex flex-col items-center justify-center" style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        {/* Title */}
+      {/* Main Interactive Stage */}
+      <div className="relative z-20 w-full flex flex-col items-center justify-center min-h-screen pb-24 px-4">
+        {/* Cinematic Title Header */}
         <motion.div
-          className="text-center mb-6 px-4"
+          className="text-center mb-8 max-w-lg"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.7 }}
+          transition={{ delay: 0.25, duration: 0.8 }}
         >
-          <h2 className="text-2xl md:text-4xl font-bold font-['Cinzel'] text-white mb-3"
-            style={{ textShadow: '0 0 20px rgba(139,92,246,0.8)' }}>
-            The Landing
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <span className="w-6 h-[1px] bg-violet-400/50" />
+            <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-violet-300">
+              DESCENT // THE CELESTIAL PRISM
+            </span>
+            <span className="w-6 h-[1px] bg-violet-400/50" />
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-cinzel font-bold text-white mb-2 drop-shadow-[0_0_25px_rgba(139,92,246,0.6)]">
+            The Awakening
           </h2>
-          <p className="text-white/70 font-['Nunito'] text-base md:text-lg">
-            Tap the star fragment{' '}
-            <span className="font-bold" style={{ color: '#39FF14' }}>3 times</span>{' '}
-            to awaken its magic.
+          <p className="text-slate-300 font-serif italic text-base md:text-lg">
+            Tap the fallen crystal{' '}
+            <span className="font-semibold text-emerald-400">3 times</span>{' '}
+            to release its memories.
           </p>
-          {/* Tap counter */}
-          <div className="flex gap-3 justify-center mt-3">
+
+          {/* Sleek Energy Counter */}
+          <div className="flex gap-2.5 justify-center mt-3.5">
             {[0, 1, 2].map(i => (
               <motion.div
                 key={i}
-                className="w-3 h-3 rounded-full border-2"
+                className="w-2.5 h-2.5 rounded-full border border-violet-400/40"
                 style={{
-                  borderColor: i < cracks ? '#39FF14' : '#ffffff40',
-                  background: i < cracks ? '#39FF14' : 'transparent',
-                  boxShadow: i < cracks ? '0 0 8px #39FF14' : 'none',
+                  background: i < cracks ? '#10b981' : 'transparent',
+                  boxShadow: i < cracks ? '0 0 12px #10b981, 0 0 24px #10b981' : 'none',
+                  borderColor: i < cracks ? '#6ee7b7' : 'rgba(255,255,255,0.2)',
                 }}
-                animate={i < cracks ? { scale: [1, 1.3, 1] } : {}}
+                animate={i < cracks ? { scale: [1, 1.4, 1] } : {}}
                 transition={{ duration: 0.3 }}
               />
             ))}
           </div>
         </motion.div>
 
-        {/* The star fragment */}
+        {/* The Fallen Celestial Star Crystal */}
         <motion.div
           className="relative cursor-pointer select-none"
           onClick={handleStarClick}
-          animate={shattering
-            ? { scale: [1, 1.5, 0], opacity: [1, 1, 0], rotate: [0, 15, -15, 0] }
-            : { y: [0, -8, 0] }
+          animate={
+            shattering
+              ? { scale: [1, 1.6, 0], opacity: [1, 1, 0], rotate: [0, 20, -20, 0] }
+              : { y: [0, -8, 0] }
           }
-          transition={shattering
-            ? { duration: 0.8, ease: 'easeOut' }
-            : { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+          transition={
+            shattering
+              ? { duration: 0.85, ease: 'easeOut' }
+              : { duration: 3.5, repeat: Infinity, ease: 'easeInOut' }
           }
           whileHover={{ scale: shattering ? 1 : 1.08 }}
           whileTap={{ scale: shattering ? 1 : 0.95 }}
         >
-          {/* Glow ring */}
+          {/* Prismatic Aura Ring */}
           <motion.div
             className="absolute inset-0 rounded-full pointer-events-none"
-            style={{ transform: 'scale(1.3)' }}
+            style={{ transform: 'scale(1.4)' }}
             animate={{
               boxShadow: [
-                `0 0 ${glowIntensity}px ${glowColor}, 0 0 ${glowIntensity * 2}px ${glowColor}60`,
-                `0 0 ${glowIntensity * 1.5}px ${glowColor}, 0 0 ${glowIntensity * 3}px ${glowColor}80`,
-                `0 0 ${glowIntensity}px ${glowColor}, 0 0 ${glowIntensity * 2}px ${glowColor}60`,
-              ]
+                `0 0 35px ${glowColor}60, 0 0 70px ${glowColor}30`,
+                `0 0 55px ${glowColor}90, 0 0 100px ${glowColor}50`,
+                `0 0 35px ${glowColor}60, 0 0 70px ${glowColor}30`,
+              ],
             }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 1.6, repeat: Infinity }}
           />
 
-          <svg viewBox="0 0 140 140" style={{ width: '140px', height: '140px' }}>
-            <defs>
-              <radialGradient id="fragGrad" cx="40%" cy="35%" r="65%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="30%" stopColor={glowColor} stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.7" />
-              </radialGradient>
-            </defs>
+          {/* Faceted Anime Celestial Crystal SVG */}
+          <div className="relative w-36 h-36 md:w-44 md:h-44">
+            <svg viewBox="0 0 160 160" className="w-full h-full overflow-visible">
+              <defs>
+                <linearGradient id="facetA" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="60%" stopColor="#a78bfa" />
+                  <stop offset="100%" stopColor="#4c1d95" />
+                </linearGradient>
+                <linearGradient id="facetB" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#6ee7b7" />
+                  <stop offset="60%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#064e3b" />
+                </linearGradient>
+                <linearGradient id="facetC" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="100%" stopColor="#6366f1" />
+                </linearGradient>
+              </defs>
 
-            {/* Main star */}
-            <polygon
-              points="70,8 84,50 130,50 95,74 108,118 70,92 32,118 45,74 10,50 56,50"
-              fill="url(#fragGrad)"
-              stroke={glowColor}
-              strokeWidth="2"
-            />
+              {/* Central 8-Pointed Star Prism Facets */}
+              <polygon points="80,10 95,65 150,80 95,95 80,150 65,95 10,80 65,65" fill="url(#facetA)" stroke="#fff" strokeWidth="1" />
+              <polygon points="80,25 90,68 135,80 90,92 80,135 70,92 25,80 70,68" fill="url(#facetB)" opacity="0.85" />
+              <polygon points="80,45 86,72 115,80 86,88 80,115 74,88 45,80 74,72" fill="url(#facetC)" opacity="0.9" />
 
-            {/* Crack lines based on crack count */}
-            {cracks >= 1 && (
-              <line x1="70" y1="50" x2="90" y2="80" stroke="rgba(0,0,0,0.6)" strokeWidth="2" />
-            )}
-            {cracks >= 2 && (
-              <>
-                <line x1="70" y1="50" x2="50" y2="82" stroke="rgba(0,0,0,0.6)" strokeWidth="2" />
-                <line x1="70" y1="50" x2="70" y2="92" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" />
-              </>
-            )}
+              {/* Geometric Facet Lines */}
+              <line x1="80" y1="10" x2="80" y2="150" stroke="#ffffff" strokeWidth="1" opacity="0.6" />
+              <line x1="10" y1="80" x2="150" y2="80" stroke="#ffffff" strokeWidth="1" opacity="0.6" />
+              <line x1="25" y1="25" x2="135" y2="135" stroke="#ffffff" strokeWidth="0.8" opacity="0.4" />
+              <line x1="135" y1="25" x2="25" y2="135" stroke="#ffffff" strokeWidth="0.8" opacity="0.4" />
 
-            {/* Chibi face */}
-            <circle cx="64" cy="64" r="4" fill="#000008" />
-            <circle cx="76" cy="64" r="4" fill="#000008" />
-            <circle cx="65.5" cy="62.5" r="1.5" fill="white" />
-            <circle cx="77.5" cy="62.5" r="1.5" fill="white" />
-            {cracks >= 2
-              ? <path d="M63 73 Q70 78 77 73" stroke="#000008" strokeWidth="2" strokeLinecap="round" fill="none" />
-              : <path d="M63 72 Q70 68 77 72" stroke="#000008" strokeWidth="2" strokeLinecap="round" fill="none" />
-            }
-          </svg>
+              {/* Internal Glowing Energy Core */}
+              <circle cx="80" cy="80" r={8 + cracks * 5} fill="#ffffff" filter="drop-shadow(0 0 10px #6ee7b7)" />
 
-          {/* Particle sparks on each tap */}
+              {/* Fracture Veins on Taps */}
+              {cracks >= 1 && (
+                <path d="M80,80 L95,60 L110,65" stroke="#6ee7b7" strokeWidth="2.5" fill="none" filter="drop-shadow(0 0 6px #6ee7b7)" />
+              )}
+              {cracks >= 2 && (
+                <>
+                  <path d="M80,80 L65,100 L50,95" stroke="#6ee7b7" strokeWidth="2.5" fill="none" filter="drop-shadow(0 0 6px #6ee7b7)" />
+                  <path d="M80,80 L88,110 L102,118" stroke="#fbbf24" strokeWidth="2.5" fill="none" filter="drop-shadow(0 0 6px #fbbf24)" />
+                </>
+              )}
+            </svg>
+          </div>
+
+          {/* Prismatic Beams on Tap */}
           {cracks > 0 && !shattering && (
             <>
-              {[...Array(cracks * 4)].map((_, i) => (
+              {[...Array(cracks * 6)].map((_, i) => (
                 <motion.div
-                  key={`spark-${cracks}-${i}`}
-                  className="absolute w-1.5 h-1.5 rounded-full pointer-events-none"
+                  key={`beam-${cracks}-${i}`}
+                  className="absolute w-1 h-1 rounded-full pointer-events-none"
                   style={{
-                    background: i % 2 === 0 ? '#39FF14' : '#8B5CF6',
+                    background: i % 2 === 0 ? '#6ee7b7' : '#c084fc',
                     left: '50%', top: '50%',
+                    boxShadow: `0 0 10px ${i % 2 === 0 ? '#6ee7b7' : '#c084fc'}`,
                   }}
                   initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
                   animate={{
-                    x: Math.cos((i * 45 * Math.PI) / 180) * (40 + Math.random() * 20),
-                    y: Math.sin((i * 45 * Math.PI) / 180) * (40 + Math.random() * 20),
+                    x: Math.cos((i * 30 * Math.PI) / 180) * (60 + Math.random() * 40),
+                    y: Math.sin((i * 30 * Math.PI) / 180) * (60 + Math.random() * 40),
                     opacity: 0,
                     scale: 0,
                   }}
-                  transition={{ duration: 0.6, delay: 0.05 * i }}
+                  transition={{ duration: 0.7, ease: 'easeOut' }}
                 />
               ))}
             </>
           )}
         </motion.div>
 
-        {/* Shatter particles */}
+        {/* Supernova Shatter Beams */}
         <AnimatePresence>
           {shattering && (
             <>
-              {[...Array(16)].map((_, i) => (
+              {[...Array(24)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-3 h-3 rounded-full pointer-events-none"
+                  className="absolute pointer-events-none z-30"
                   style={{
-                    background: [glowColor, '#39FF14', '#8B5CF6', '#FFD700'][i % 4],
+                    width: '3px',
+                    height: '24px',
+                    background: i % 3 === 0 ? '#ffffff' : i % 2 === 0 ? '#6ee7b7' : '#c084fc',
                     left: '50%', top: '50%',
-                    zIndex: 30,
+                    boxShadow: '0 0 15px #fff',
                   }}
-                  initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                  initial={{ x: 0, y: 0, opacity: 1, scaleY: 1 }}
                   animate={{
-                    x: Math.cos((i * 22.5 * Math.PI) / 180) * (80 + i * 8),
-                    y: Math.sin((i * 22.5 * Math.PI) / 180) * (80 + i * 8),
+                    x: Math.cos((i * 15 * Math.PI) / 180) * 450,
+                    y: Math.sin((i * 15 * Math.PI) / 180) * 450,
                     opacity: 0,
-                    scale: 2,
+                    scaleY: 4,
                   }}
-                  transition={{ duration: 1, ease: 'easeOut' }}
+                  transition={{ duration: 1.1, ease: 'easeOut' }}
                 />
               ))}
             </>

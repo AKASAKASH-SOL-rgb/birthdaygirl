@@ -1,30 +1,31 @@
-﻿import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Starfield from '../components/Starfield'
 
 const CONFETTI_COLORS = [
-  '#39FF14', '#8B5CF6', '#FFD700', '#FF3366', '#00F0FF',
-  '#FF9900', '#A855F7', '#10B981', '#F59E0B', '#EC4899',
+  '#fde047', '#6ee7b7', '#c084fc', '#67e8f9', '#f472b6',
+  '#f59e0b', '#10b981', '#a855f7', '#38bdf8', '#ffffff',
 ]
 
-// Synthesize a magical cosmic birthday chime using Web Audio API
+// Synthesize a refined anime celestial chime using Web Audio API
 function playBirthdayChime() {
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext
     if (!AudioCtx) return
     const ctx = new AudioCtx()
-    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51] // C5, E5, G5, C6, E6
+    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98] // C5, E5, G5, C6, E6, G6
     notes.forEach((freq, i) => {
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
       osc.type = 'sine'
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1)
-      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.1)
-      gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + i * 0.1 + 0.05)
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.8)
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08)
+      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.08)
+      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + i * 0.08 + 0.04)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.9)
       osc.connect(gain)
       gain.connect(ctx.destination)
-      osc.start(ctx.currentTime + i * 0.1)
-      osc.stop(ctx.currentTime + i * 0.1 + 0.85)
+      osc.start(ctx.currentTime + i * 0.08)
+      osc.stop(ctx.currentTime + i * 0.08 + 0.95)
     })
   } catch (e) {
     // Audio optional if browser restricts autoplay
@@ -43,17 +44,17 @@ function Confetto({ x, color, delay, size, rotSpeed }) {
         width: size,
         height: size * 0.55,
         background: color,
-        boxShadow: `0 0 8px ${color}80`,
+        boxShadow: `0 0 10px ${color}90`,
       }}
       initial={{ y: startY, rotate: 0, opacity: 1 }}
       animate={{
         y: endY,
         rotate: [0, 180 * rotSpeed, 360 * rotSpeed, 720 * rotSpeed],
         opacity: [1, 1, 1, 0.7, 0],
-        x: [(Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80],
+        x: [(Math.random() - 0.5) * 70, (Math.random() - 0.5) * 70],
       }}
       transition={{
-        duration: 3.8 + Math.random() * 2.8,
+        duration: 3.8 + Math.random() * 2.5,
         delay,
         ease: 'linear',
       }}
@@ -63,7 +64,7 @@ function Confetto({ x, color, delay, size, rotSpeed }) {
 
 function SparkParticle({ id, x, y, color }) {
   const angle = Math.random() * Math.PI * 2
-  const distance = 40 + Math.random() * 90
+  const distance = 45 + Math.random() * 85
   return (
     <motion.div
       key={id}
@@ -71,10 +72,10 @@ function SparkParticle({ id, x, y, color }) {
       style={{
         left: x,
         top: y,
-        width: '4px',
-        height: '4px',
+        width: '3.5px',
+        height: '3.5px',
         background: color,
-        boxShadow: `0 0 10px ${color}`,
+        boxShadow: `0 0 12px ${color}`,
       }}
       initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
       animate={{
@@ -97,7 +98,6 @@ export default function Phase8Finale() {
   const [sparks, setSparks] = useState([])
   const sparkIdRef = useRef(0)
 
-  // Generate initial confetti
   const spawnConfettiBatch = (count = 70) => {
     const w = typeof window !== 'undefined' ? window.innerWidth : 800
     const newItems = Array.from({ length: count }, (_, i) => ({
@@ -105,7 +105,7 @@ export default function Phase8Finale() {
       x: Math.random() * w,
       color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
       delay: Math.random() * 1.5,
-      size: 7 + Math.random() * 10,
+      size: 6 + Math.random() * 9,
       rotSpeed: Math.random() > 0.5 ? 1 : -1,
     }))
     setConfettiList(prev => [...prev.slice(-60), ...newItems])
@@ -128,11 +128,10 @@ export default function Phase8Finale() {
     playBirthdayChime()
     spawnConfettiBatch(50)
 
-    // Burst sparks
     const rect = e.currentTarget.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
-    const newSparks = Array.from({ length: 16 }, () => ({
+    const newSparks = Array.from({ length: 18 }, () => ({
       id: sparkIdRef.current++,
       x: cx,
       y: cy,
@@ -147,61 +146,43 @@ export default function Phase8Finale() {
         rumble ? 'animate-rumble' : ''
       }`}
       style={{
-        background: 'radial-gradient(ellipse at center, #100a26 0%, #060212 50%, #000004 100%)',
+        background: 'radial-gradient(ellipse at center, #0d0624 0%, #050214 55%, #02000d 100%)',
       }}
     >
-      {/* Gritty Film Grain and Vignette Texture Overlays */}
-      <div className="absolute inset-0 pointer-events-none z-20 gritty-vignette opacity-80" />
-      <div className="absolute inset-0 pointer-events-none z-20 gritty-grain" />
+      <Starfield count={260} speed={0.15} />
 
-      {/* Deep Space Starfield */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(110)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 2 + 0.5}px`,
-              height: `${Math.random() * 2 + 0.5}px`,
-              background: i % 4 === 0 ? '#39FF14' : i % 3 === 0 ? '#8B5CF6' : '#FFD700',
-              opacity: Math.random() * 0.7 + 0.2,
-              animation: `twinkle ${1.5 + Math.random() * 2}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
+      {/* Cinematic Film Vignette & Grain */}
+      <div className="absolute inset-0 pointer-events-none z-20 anime-vignette opacity-80" />
+      <div className="absolute inset-0 pointer-events-none z-20 anime-grain" />
 
-      {/* Ambient Pulsing Cosmic Aura */}
+      {/* Ambient Pulsing Aurora */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="absolute rounded-full"
           style={{
-            width: '650px', height: '650px',
+            width: '700px', height: '700px',
             top: '25%', left: '50%', transform: 'translate(-50%, -50%)',
-            background: 'radial-gradient(circle, rgba(139,92,246,0.18) 0%, rgba(57,255,20,0.1) 45%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(139,92,246,0.16) 0%, rgba(16,185,129,0.1) 45%, transparent 70%)',
           }}
           animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.7, 0.4] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
 
-      {/* Supernova Shockwave on Blowout */}
+      {/* Supernova Shockwave on Extinguish */}
       <AnimatePresence>
         {shockwave && (
           <motion.div
             className="absolute z-30 pointer-events-none rounded-full"
             style={{
-              left: '50%', top: '45%',
+              left: '50%', top: '48%',
               transform: 'translate(-50%, -50%)',
-              border: '3px solid rgba(57,255,20,0.9)',
-              boxShadow: '0 0 50px rgba(57,255,20,0.8), 0 0 100px rgba(139,92,246,0.8)',
+              border: '2px solid rgba(110,231,183,0.9)',
+              boxShadow: '0 0 50px rgba(110,231,183,0.8), 0 0 100px rgba(192,132,252,0.8)',
             }}
             initial={{ width: 10, height: 10, opacity: 1 }}
-            animate={{ width: 1400, height: 1400, opacity: 0 }}
-            transition={{ duration: 1.1, ease: 'easeOut' }}
+            animate={{ width: 1500, height: 1500, opacity: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
           />
         )}
       </AnimatePresence>
@@ -216,72 +197,61 @@ export default function Phase8Finale() {
         <SparkParticle key={s.id} {...s} />
       ))}
 
-      {/* High-Impact Birthday Banner */}
+      {/* Mature Anime Birthday Title Banner */}
       <AnimatePresence>
         {showBanner && (
           <motion.div
             className="absolute inset-x-4 top-6 md:top-8 z-30 text-center flex flex-col items-center"
-            initial={{ opacity: 0, scale: 0.4, y: -70 }}
+            initial={{ opacity: 0, scale: 0.5, y: -60 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, type: 'spring', stiffness: 180, damping: 14 }}
           >
-            {/* Top Star Sparkles Badge */}
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-gold text-lg">✦</span>
-              <span className="text-xs font-mono font-bold tracking-[0.3em] uppercase text-emerald-300">
-                A Star Is Celebrated
+            {/* Top Star Coordinates Badge */}
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-amber-300 text-xs">◆</span>
+              <span className="text-[10px] md:text-xs font-mono font-bold tracking-[0.4em] uppercase text-emerald-300">
+                CELESTIAL REIGN // RISHA
               </span>
-              <span className="text-gold text-lg">✦</span>
+              <span className="text-amber-300 text-xs">◆</span>
             </div>
 
             {/* Glowing Main Title */}
             <motion.h1
-              className="font-['Cinzel'] font-black tracking-tight"
+              className="font-cinzel font-bold tracking-wider"
               style={{
-                fontSize: 'clamp(2rem, 7vw, 4.8rem)',
-                background: 'linear-gradient(135deg, #ffffff 0%, #39FF14 30%, #FFD700 70%, #A855F7 100%)',
+                fontSize: 'clamp(1.8rem, 6.5vw, 4.2rem)',
+                background: 'linear-gradient(135deg, #ffffff 0%, #6ee7b7 30%, #fde047 70%, #c084fc 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 25px rgba(57,255,20,0.7))',
-                lineHeight: 1.05,
+                filter: 'drop-shadow(0 0 25px rgba(110,231,183,0.6))',
+                lineHeight: 1.1,
               }}
-              animate={{
-                filter: [
-                  'drop-shadow(0 0 20px rgba(57,255,20,0.7))',
-                  'drop-shadow(0 0 35px rgba(255,215,0,0.85))',
-                  'drop-shadow(0 0 25px rgba(139,92,246,0.8))',
-                  'drop-shadow(0 0 20px rgba(57,255,20,0.7))',
-                ],
-              }}
-              transition={{ duration: 3.5, repeat: Infinity }}
             >
               Happy Birthday
             </motion.h1>
 
-            {/* RISHA Big Name */}
+            {/* RISHA Title in Regal Gold */}
             <motion.h1
-              className="font-['Cinzel'] font-black tracking-wider"
+              className="font-cinzel font-black tracking-widest uppercase"
               style={{
-                fontSize: 'clamp(3.5rem, 13vw, 8.5rem)',
-                background: 'linear-gradient(135deg, #FFD700 0%, #39FF14 50%, #FFD700 100%)',
+                fontSize: 'clamp(3rem, 12vw, 7.5rem)',
+                background: 'linear-gradient(135deg, #fef08a 0%, #10b981 50%, #fef08a 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 40px rgba(255,215,0,0.95))',
+                filter: 'drop-shadow(0 0 35px rgba(251,191,36,0.9))',
                 lineHeight: 1.0,
               }}
-              animate={{
-                scale: [1, 1.02, 1],
-              }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={{ scale: [1, 1.02, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              Risha!
+              Risha
             </motion.h1>
 
-            {/* Best-Friend Heartwarming Tribute Subtitle */}
+            {/* Heartwarming Best-Friend Tribute in Literary Serif */}
             <motion.p
-              className="text-white/90 text-sm md:text-lg font-['Nunito'] font-semibold tracking-wide max-w-lg mt-2 px-4 italic"
+              className="text-slate-200 text-sm md:text-lg font-serif italic tracking-wide max-w-lg mt-2 px-4"
               style={{
                 textShadow: '0 2px 10px rgba(0,0,0,0.9), 0 0 15px rgba(139,92,246,0.5)',
               }}
@@ -291,31 +261,18 @@ export default function Phase8Finale() {
             >
               &ldquo;To the brightest star in my universe — the absolute greatest best friend.&rdquo;
             </motion.p>
-
-            {/* Floating emojis ribbon */}
-            <div className="flex gap-2.5 mt-2.5 text-2xl">
-              {['✨', '💚', '👑', '💜', '⭐', '🎂', '🎉'].map((e, i) => (
-                <motion.span
-                  key={i}
-                  animate={{ y: [0, -8, 0], rotate: [0, 8, -8, 0] }}
-                  transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.15 }}
-                >
-                  {e}
-                </motion.span>
-              ))}
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Redesigned 3D Cosmic Galaxy Birthday Cake */}
+      {/* Gourmet Anime Midnight Galaxy Cake */}
       <motion.div
         className="relative z-10 flex flex-col items-center"
-        animate={{ y: [0, -9, 0] }}
+        animate={{ y: [0, -8, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         style={{ marginTop: showBanner ? '190px' : '0' }}
       >
-        {/* Animated Candle & Multi-Layer Flame */}
+        {/* Animated Candle & Multi-Layer Ethereal Flame */}
         {!blown && (
           <div
             className="relative flex flex-col items-center cursor-pointer select-none mb-[-3px] z-30 group"
@@ -325,386 +282,346 @@ export default function Phase8Finale() {
             <motion.div
               className="absolute rounded-full pointer-events-none"
               style={{
-                width: '70px', height: '70px',
-                top: '-20px', left: '50%', transform: 'translateX(-50%)',
+                width: '65px', height: '65px',
+                top: '-18px', left: '50%', transform: 'translateX(-50%)',
               }}
               animate={{
                 boxShadow: [
-                  '0 0 25px 10px rgba(255,215,0,0.7), 0 0 50px 20px rgba(255,69,0,0.4)',
-                  '0 0 35px 15px rgba(57,255,20,0.6), 0 0 70px 30px rgba(139,92,246,0.4)',
-                  '0 0 25px 10px rgba(255,215,0,0.7), 0 0 50px 20px rgba(255,69,0,0.4)',
+                  '0 0 25px 8px rgba(254,240,138,0.7), 0 0 50px 18px rgba(16,185,129,0.4)',
+                  '0 0 35px 12px rgba(192,132,252,0.6), 0 0 65px 25px rgba(110,231,183,0.4)',
+                  '0 0 25px 8px rgba(254,240,138,0.7), 0 0 50px 18px rgba(16,185,129,0.4)',
                 ],
               }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
             />
 
             {/* Tap Hint Tooltip */}
             <motion.div
-              className="absolute -top-10 whitespace-nowrap bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-emerald-400/50 text-[11px] font-bold text-emerald-300 pointer-events-none"
+              className="absolute -top-10 whitespace-nowrap bg-black/75 backdrop-blur-md px-3 py-1 rounded-full border border-emerald-400/40 text-[10px] font-mono font-bold tracking-wider text-emerald-300 pointer-events-none"
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              🔥 Tap to blow out
+              ✦ TAP FLAME TO MAKE A WISH ✦
             </motion.div>
 
-            {/* Realistic Multi-Layer Flame SVG */}
+            {/* Ethereal Anime Flame SVG */}
             <motion.div
-              style={{ width: '38px', height: '52px' }}
+              style={{ width: '34px', height: '48px' }}
               animate={{
-                scaleX: [1, 0.88, 1.12, 0.94, 1],
-                scaleY: [1, 1.1, 0.92, 1.06, 1],
+                scaleX: [1, 0.9, 1.1, 0.95, 1],
+                scaleY: [1, 1.08, 0.94, 1.05, 1],
                 rotate: [-2, 3, -1, 2, -2],
               }}
               transition={{ duration: 0.35, repeat: Infinity, ease: 'easeInOut' }}
             >
               <svg viewBox="0 0 38 52" className="w-full h-full overflow-visible">
                 <defs>
-                  {/* Outer aura */}
-                  <radialGradient id="flameOuter" cx="50%" cy="80%" r="75%">
+                  <radialGradient id="animeFlameOuter" cx="50%" cy="80%" r="75%">
                     <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="25%" stopColor="#FFD700" />
-                    <stop offset="60%" stopColor="#FF4500" />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.4" />
+                    <stop offset="25%" stopColor="#fef08a" />
+                    <stop offset="60%" stopColor="#10b981" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.4" />
                   </radialGradient>
-                  {/* Inner hot core */}
-                  <radialGradient id="flameCore" cx="50%" cy="85%" r="60%">
+                  <radialGradient id="animeFlameCore" cx="50%" cy="85%" r="60%">
                     <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="60%" stopColor="#86efac" />
-                    <stop offset="100%" stopColor="#39FF14" stopOpacity="0.8" />
+                    <stop offset="60%" stopColor="#6ee7b7" />
+                    <stop offset="100%" stopColor="#059669" stopOpacity="0.8" />
                   </radialGradient>
                 </defs>
-                {/* Outer Flame body */}
                 <path
                   d="M19,2 Q31,16 28,30 Q25,44 19,50 Q13,44 10,30 Q7,16 19,2 Z"
-                  fill="url(#flameOuter)"
-                  filter="drop-shadow(0 0 8px #FF8C00)"
+                  fill="url(#animeFlameOuter)"
+                  filter="drop-shadow(0 0 8px #6ee7b7)"
                 />
-                {/* Inner white-hot plasma core */}
                 <path
                   d="M19,16 Q25,26 23,36 Q21,44 19,48 Q17,44 15,36 Q13,26 19,16 Z"
-                  fill="url(#flameCore)"
+                  fill="url(#animeFlameCore)"
                 />
-                {/* Spark particles rising from flame */}
-                <circle cx="19" cy="8" r="1.5" fill="#fff" opacity="0.9" />
-                <circle cx="23" cy="18" r="1" fill="#FFD700" opacity="0.8" />
               </svg>
             </motion.div>
 
-            {/* Candle Stick — Striped Cosmic Pattern */}
+            {/* Sleek Tapered Candle Stick */}
             <div
               className="relative rounded-t-sm"
               style={{
-                width: '16px', height: '48px',
-                background: 'repeating-linear-gradient(45deg, #8B5CF6, #8B5CF6 6px, #39FF14 6px, #39FF14 12px)',
-                boxShadow: '0 0 12px rgba(139,92,246,0.8), inset 0 0 4px rgba(0,0,0,0.6)',
-                borderRadius: '5px 5px 2px 2px',
+                width: '14px', height: '44px',
+                background: 'linear-gradient(to bottom, #c084fc 0%, #4c1d95 60%, #1e1b4b 100%)',
+                boxShadow: '0 0 10px rgba(192,132,252,0.6), inset 0 1px 2px rgba(255,255,255,0.4)',
+                borderRadius: '4px 4px 2px 2px',
               }}
             >
-              {/* Wick */}
-              <div
-                className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-[2px] h-3 bg-neutral-900 rounded-full"
-              />
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-[1.5px] h-2.5 bg-neutral-900 rounded-full" />
             </div>
           </div>
         )}
 
-        {/* Blown-out candle with realistic swirling smoke */}
+        {/* Extinguished Candle with Anime Swirling Smoke */}
         {blown && (
           <div className="relative flex flex-col items-center mb-[-3px] z-20">
-            {/* Swirling Smoke Trails */}
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute rounded-full pointer-events-none"
                 style={{
-                  width: `${6 + i * 3}px`,
-                  height: `${6 + i * 3}px`,
-                  background: 'rgba(255,255,255,0.4)',
+                  width: `${5 + i * 2.5}px`,
+                  height: `${5 + i * 2.5}px`,
+                  background: 'rgba(255,255,255,0.35)',
                   filter: 'blur(2px)',
-                  bottom: '48px',
-                  left: `calc(50% + ${(i - 2) * 8}px)`,
+                  bottom: '44px',
+                  left: `calc(50% + ${(i - 2) * 7}px)`,
                 }}
                 animate={{
-                  y: [-15, -90 - i * 15],
-                  x: [(i % 2 === 0 ? -12 : 12) * (i + 1), (i % 2 === 0 ? 15 : -15) * (i + 1)],
-                  opacity: [0.7, 0],
-                  scale: [1, 3.5],
+                  y: [-12, -85 - i * 14],
+                  x: [(i % 2 === 0 ? -10 : 10) * (i + 1), (i % 2 === 0 ? 12 : -12) * (i + 1)],
+                  opacity: [0.65, 0],
+                  scale: [1, 3.2],
                 }}
-                transition={{ duration: 2.2, delay: i * 0.18, repeat: Infinity }}
+                transition={{ duration: 2.2, delay: i * 0.16, repeat: Infinity }}
               />
             ))}
-            {/* Darkened Candle Stick */}
             <div
-              className="relative rounded-t-sm opacity-90"
+              className="relative rounded-t-sm opacity-80"
               style={{
-                width: '16px', height: '48px',
-                background: 'repeating-linear-gradient(45deg, #4c1d95, #4c1d95 6px, #14532d 6px, #14532d 12px)',
-                borderRadius: '5px 5px 2px 2px',
+                width: '14px', height: '44px',
+                background: 'linear-gradient(to bottom, #3b0764, #1e1b4b)',
+                borderRadius: '4px 4px 2px 2px',
               }}
             >
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-[2px] h-2 bg-neutral-950 rounded-full" />
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-[1.5px] h-2 bg-neutral-950 rounded-full" />
             </div>
           </div>
         )}
 
-        {/* 3D-Styled Stylized Cosmic Cake SVG */}
+        {/* Gourmet Anime Galaxy Entremet Cake SVG */}
         <div className="relative">
-          {/* Twin Side Sparkler Fountain Fireworks */}
-          <div className="absolute -left-8 top-16 pointer-events-none">
+          {/* Side Sparkler Embers */}
+          <div className="absolute -left-6 top-14 pointer-events-none">
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={`spk-l-${i}`}
-                className="absolute w-1.5 h-1.5 rounded-full bg-gold"
-                style={{
-                  boxShadow: '0 0 8px #FFD700',
-                  '--tx': `${-30 - Math.random() * 40}px`,
-                  '--ty': `${-20 - Math.random() * 50}px`,
-                }}
+                className="absolute w-1 h-1 rounded-full bg-amber-300"
+                style={{ boxShadow: '0 0 6px #fde047' }}
                 animate={{
-                  x: [0, -30 - Math.random() * 30],
-                  y: [0, -30 - Math.random() * 40],
+                  x: [0, -25 - Math.random() * 25],
+                  y: [0, -25 - Math.random() * 35],
                   opacity: [1, 0],
                   scale: [1, 0.2],
                 }}
-                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1 }}
+                transition={{ duration: 0.65, repeat: Infinity, delay: i * 0.1 }}
               />
             ))}
           </div>
-          <div className="absolute -right-8 top-16 pointer-events-none">
+          <div className="absolute -right-6 top-14 pointer-events-none">
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={`spk-r-${i}`}
-                className="absolute w-1.5 h-1.5 rounded-full bg-emerald-400"
-                style={{
-                  boxShadow: '0 0 8px #39FF14',
-                }}
+                className="absolute w-1 h-1 rounded-full bg-emerald-300"
+                style={{ boxShadow: '0 0 6px #6ee7b7' }}
                 animate={{
-                  x: [0, 30 + Math.random() * 30],
-                  y: [0, -30 - Math.random() * 40],
+                  x: [0, 25 + Math.random() * 25],
+                  y: [0, -25 - Math.random() * 35],
                   opacity: [1, 0],
                   scale: [1, 0.2],
                 }}
-                transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.12 }}
+                transition={{ duration: 0.65, repeat: Infinity, delay: i * 0.12 }}
               />
             ))}
           </div>
 
           <svg
             viewBox="0 0 280 190"
-            style={{ width: 'min(330px, 86vw)', height: 'auto', overflow: 'visible' }}
+            style={{ width: 'min(320px, 84vw)', height: 'auto', overflow: 'visible' }}
           >
             <defs>
-              {/* Gradients */}
-              <linearGradient id="bottomTierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="animeBottomTier" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#1e1038" />
-                <stop offset="50%" stopColor="#120824" />
-                <stop offset="100%" stopColor="#080312" />
+                <stop offset="50%" stopColor="#100624" />
+                <stop offset="100%" stopColor="#05020f" />
               </linearGradient>
 
-              <linearGradient id="topTierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#251447" />
-                <stop offset="60%" stopColor="#170a2f" />
-                <stop offset="100%" stopColor="#0c0419" />
+              <linearGradient id="animeTopTier" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#251347" />
+                <stop offset="60%" stopColor="#14082e" />
+                <stop offset="100%" stopColor="#070316" />
               </linearGradient>
 
-              <linearGradient id="greenGlaze" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#4ade80" />
-                <stop offset="50%" stopColor="#22c55e" />
-                <stop offset="100%" stopColor="#15803d" />
-              </linearGradient>
-
-              <linearGradient id="violetGlaze" x1="0%" y1="0%" x2="0%" y2="100%">
+              <linearGradient id="animeVioletGlaze" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#c084fc" />
-                <stop offset="60%" stopColor="#9333ea" />
-                <stop offset="100%" stopColor="#581c87" />
+                <stop offset="60%" stopColor="#7e22ce" />
+                <stop offset="100%" stopColor="#3b0764" />
               </linearGradient>
 
-              <linearGradient id="goldPlate" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#785310" />
-                <stop offset="50%" stopColor="#FFD700" />
-                <stop offset="100%" stopColor="#785310" />
+              <linearGradient id="animeEmeraldGlaze" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#6ee7b7" />
+                <stop offset="50%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#064e3b" />
               </linearGradient>
 
-              <linearGradient id="rishaGold" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#39FF14" />
-                <stop offset="45%" stopColor="#FFD700" />
+              <linearGradient id="animeGoldStand" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#78350f" />
+                <stop offset="50%" stopColor="#fbbf24" />
+                <stop offset="100%" stopColor="#78350f" />
+              </linearGradient>
+
+              <linearGradient id="animePlaqueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#6ee7b7" />
+                <stop offset="50%" stopColor="#fef08a" />
                 <stop offset="100%" stopColor="#c084fc" />
               </linearGradient>
-
-              {/* Shadow Filters */}
-              <filter id="cakeDropShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="8" stdDeviation="6" floodColor="#000" floodOpacity="0.8" />
-              </filter>
             </defs>
 
-            {/* Serving Stand / Gold Plate */}
-            <ellipse cx="140" cy="178" rx="135" ry="10" fill="url(#goldPlate)" filter="drop-shadow(0 8px 20px rgba(255,215,0,0.3))" />
-            <ellipse cx="140" cy="175" rx="130" ry="8" fill="#180f2d" stroke="#FFD700" strokeWidth="1" />
+            {/* Gold Serving Stand */}
+            <ellipse cx="140" cy="178" rx="135" ry="9" fill="url(#animeGoldStand)" />
+            <ellipse cx="140" cy="175" rx="130" ry="7" fill="#0f0724" stroke="#fbbf24" strokeWidth="0.8" />
 
             {/* ===== BOTTOM TIER ===== */}
             <rect
-              x="25" y="105" width="230" height="68" rx="16"
-              fill="url(#bottomTierGrad)"
-              stroke="#8B5CF6"
-              strokeWidth="2"
-              filter="url(#cakeDropShadow)"
+              x="25" y="105" width="230" height="68" rx="12"
+              fill="url(#animeBottomTier)"
+              stroke="rgba(139,92,246,0.5)"
+              strokeWidth="1.5"
             />
-            {/* Sponge Texture Stars */}
-            {[50, 95, 140, 185, 230].map((x, i) => (
-              <circle key={`bt-${i}`} cx={x} cy="150" r="3.5" fill={i % 2 === 0 ? '#FFD700' : '#39FF14'} opacity="0.8" />
-            ))}
             {/* Dripping Glaze — Bottom Tier */}
             <path
               d="M25,105 L255,105 
-                 C255,118 245,124 240,124 
-                 C235,124 230,112 220,112 
-                 C210,112 205,130 195,130 
-                 C185,130 180,114 170,114 
-                 C160,114 155,134 145,134 
-                 C135,134 130,115 120,115 
-                 C110,115 105,132 95,132 
-                 C85,132 80,114 70,114 
-                 C60,114 55,126 45,126 
-                 C35,126 30,114 25,105 Z"
-              fill="url(#violetGlaze)"
-              filter="drop-shadow(0 3px 5px rgba(0,0,0,0.5))"
+                 C255,116 245,122 240,122 
+                 C235,122 230,111 220,111 
+                 C210,111 205,128 195,128 
+                 C185,128 180,113 170,113 
+                 C160,113 155,130 145,130 
+                 C135,130 130,114 120,114 
+                 C110,114 105,129 95,129 
+                 C85,129 80,113 70,113 
+                 C60,113 55,124 45,124 
+                 C35,124 30,113 25,105 Z"
+              fill="url(#animeVioletGlaze)"
             />
-            {/* Neon Green Drip Highlights */}
-            {[45, 95, 145, 195, 240].map((cx, i) => (
-              <ellipse key={`vdrip-${i}`} cx={cx} cy={i === 2 ? 134 : i % 2 === 0 ? 126 : 132} rx="4.5" ry="5.5" fill="#39FF14" />
+            {/* Gold leaf foil specks */}
+            {[45, 95, 145, 195, 235].map((cx, i) => (
+              <circle key={`gleaf-${i}`} cx={cx} cy={i % 2 === 0 ? 123 : 129} r="2.5" fill="#fde047" />
             ))}
 
-            {/* Glowing Plaque for RISHA */}
+            {/* Minimalist Anime Plaque: RISHA */}
             <rect
-              x="85" y="132" width="110" height="32" rx="8"
-              fill="#0b041a"
-              stroke="url(#rishaGold)"
-              strokeWidth="2"
-              filter="drop-shadow(0 0 10px rgba(57,255,20,0.5))"
+              x="88" y="134" width="104" height="28" rx="6"
+              fill="#060214"
+              stroke="url(#animePlaqueGrad)"
+              strokeWidth="1.5"
             />
             <text
-              x="140" y="154"
+              x="140" y="153"
               textAnchor="middle"
-              fontSize="17"
-              fontFamily="Cinzel, Georgia, serif"
+              fontSize="14"
+              fontFamily="Cinzel, serif"
               fontWeight="900"
-              letterSpacing="2"
-              fill="url(#rishaGold)"
-              style={{ filter: 'drop-shadow(0 0 6px #FFD700)' }}
+              letterSpacing="3"
+              fill="url(#animePlaqueGrad)"
+              style={{ filter: 'drop-shadow(0 0 5px #fde047)' }}
             >
               RISHA
             </text>
 
             {/* ===== TOP TIER ===== */}
             <rect
-              x="60" y="48" width="160" height="60" rx="14"
-              fill="url(#topTierGrad)"
-              stroke="#A855F7"
-              strokeWidth="2"
-              filter="url(#cakeDropShadow)"
+              x="60" y="48" width="160" height="60" rx="10"
+              fill="url(#animeTopTier)"
+              stroke="rgba(168,85,247,0.5)"
+              strokeWidth="1.5"
             />
-            {/* Top Tier Dripping Neon Green Glaze */}
+            {/* Top Tier Emerald Glaze */}
             <path
               d="M60,48 L220,48 
-                 C220,58 212,65 205,65 
-                 C198,65 192,54 185,54 
-                 C178,54 172,70 165,70 
-                 C158,70 152,55 145,55 
-                 C138,55 132,72 125,72 
-                 C118,72 112,56 105,56 
-                 C98,56 92,68 85,68 
-                 C78,68 72,58 60,48 Z"
-              fill="url(#greenGlaze)"
-              filter="drop-shadow(0 3px 6px rgba(0,0,0,0.6))"
+                 C220,57 212,63 205,63 
+                 C198,63 192,53 185,53 
+                 C178,53 172,67 165,67 
+                 C158,67 152,54 145,54 
+                 C138,54 132,69 125,69 
+                 C118,69 112,55 105,55 
+                 C98,55 92,66 85,66 
+                 C78,66 72,56 60,48 Z"
+              fill="url(#animeEmeraldGlaze)"
             />
-            {/* Violet drip beads */}
-            {[85, 125, 165, 205].map((cx, i) => (
-              <ellipse key={`gdrip-${i}`} cx={cx} cy={i === 1 ? 72 : 68} rx="4" ry="5" fill="#c084fc" />
-            ))}
 
-            {/* Piped Frosting Dollops on Top */}
-            {[75, 105, 135, 165, 195].map((x, i) => (
-              <g key={`dollop-${i}`}>
-                <ellipse cx={x} cy="48" rx="10" ry="7" fill={i % 2 === 0 ? '#39FF14' : '#A855F7'} />
-                <circle cx={x} cy="44" r="3.5" fill="#FFD700" filter="drop-shadow(0 0 3px #FFD700)" />
-              </g>
-            ))}
+            {/* Architectural Crystal Sugar Shards on Top */}
+            <polygon points="75,48 79,28 85,48" fill="#6ee7b7" opacity="0.85" />
+            <polygon points="105,48 110,22 116,48" fill="#c084fc" opacity="0.85" />
+            <polygon points="165,48 171,20 178,48" fill="#fde047" opacity="0.85" />
+            <polygon points="195,48 200,26 206,48" fill="#67e8f9" opacity="0.85" />
 
-            {/* Stardust Sparkles on Cake */}
-            {[90, 130, 170, 200].map((x, i) => (
-              <text key={`st-${i}`} x={x} y="85" textAnchor="middle" fontSize="11" fill="#FFD700">
-                ✦
-              </text>
+            {/* Star Pearls */}
+            {[90, 135, 180].map((x, i) => (
+              <circle key={`pearl-${i}`} cx={x} cy="48" r="3" fill="#ffffff" filter="drop-shadow(0 0 3px #fff)" />
             ))}
           </svg>
         </div>
 
-        {/* Action Prompt */}
+        {/* Wish Prompt */}
         {!blown && (
           <motion.p
-            className="text-white/80 text-sm font-['Nunito'] tracking-wide mt-3 font-semibold"
+            className="text-slate-300 font-serif italic text-sm md:text-base tracking-wide mt-3"
             animate={{ opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 1.8, repeat: Infinity }}
           >
-            🕯️ Make a silent wish &amp; tap the flame to blow it out!
+            🕯️ Make a silent wish &amp; tap the flame to ignite the stars.
           </motion.p>
         )}
 
-        {/* Celebratory Controls after blow out */}
+        {/* Post-Extinguish Celebratory Action */}
         {blown && (
           <motion.div
             className="flex flex-col items-center gap-3 mt-4"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.5 }}
           >
-            <p className="text-emerald-300 font-bold text-sm tracking-wide">
-              ✨ Wish dispatched across the cosmos! ✨
+            <p className="text-emerald-300 font-mono text-xs md:text-sm tracking-widest uppercase">
+              ✦ A WISH ENTRUSTED TO THE CELESTIAL REALM ✦
             </p>
 
-            {/* Interactive Firework & Confetti Cannon Button */}
             <motion.button
               onClick={handleExtraCelebration}
-              className="px-6 py-2.5 rounded-full font-bold text-xs md:text-sm font-['Nunito'] tracking-wider text-white cursor-pointer select-none"
+              className="px-7 py-3 rounded-xl font-mono text-xs md:text-sm tracking-[0.2em] text-white uppercase cursor-pointer select-none"
               style={{
-                background: 'linear-gradient(135deg, rgba(57,255,20,0.3), rgba(255,215,0,0.35))',
-                border: '1.5px solid rgba(255,215,0,0.8)',
-                boxShadow: '0 0 20px rgba(255,215,0,0.4)',
+                background: 'linear-gradient(135deg, rgba(20, 10, 48, 0.85) 0%, rgba(10, 5, 30, 0.95) 100%)',
+                border: '1px solid rgba(251, 191, 36, 0.8)',
+                boxShadow: '0 0 25px rgba(251, 191, 36, 0.35)',
               }}
-              whileHover={{ scale: 1.06, boxShadow: '0 0 30px rgba(255,215,0,0.8)' }}
-              whileTap={{ scale: 0.94 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 35px rgba(251, 191, 36, 0.7)' }}
+              whileTap={{ scale: 0.95 }}
             >
-              🎉 Tap For More Fireworks &amp; Confetti! 🎉
+              ✦ IGNITE CELESTIAL FIREWORKS ✦
             </motion.button>
           </motion.div>
         )}
       </motion.div>
 
-      {/* Floating Birthday Orbs and Lanterns */}
+      {/* Floating Starlight Orbs Rising Gracefully */}
       {showBanner && (
-        <div className="absolute inset-0 pointer-events-none z-20">
-          {['🎈', '✨', '👑', '⭐', '💫', '🎊', '🎉', '🌟'].map((emoji, i) => (
+        <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+          {[...Array(12)].map((_, i) => (
             <motion.div
               key={`orb-${i}`}
-              className="absolute text-3xl"
+              className="absolute rounded-full"
               style={{
-                left: `${10 + i * 11}%`,
-                bottom: '-40px',
+                left: `${8 + i * 8}%`,
+                bottom: '-30px',
+                width: `${4 + (i % 3) * 3}px`,
+                height: `${4 + (i % 3) * 3}px`,
+                background: i % 3 === 0 ? '#fde047' : i % 2 === 0 ? '#6ee7b7' : '#c084fc',
+                boxShadow: `0 0 15px ${i % 3 === 0 ? '#fde047' : i % 2 === 0 ? '#6ee7b7' : '#c084fc'}`,
               }}
               animate={{
-                y: [-40, -window.innerHeight - 100],
+                y: [-30, -window.innerHeight - 120],
                 x: [(Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40],
-                rotate: [0, i % 2 === 0 ? 30 : -30, 0],
+                opacity: [0, 0.9, 0.9, 0],
               }}
               transition={{
-                duration: 5 + i * 0.8,
+                duration: 6 + i * 0.7,
                 repeat: Infinity,
-                delay: i * 0.4,
+                delay: i * 0.35,
                 ease: 'linear',
               }}
-            >
-              {emoji}
-            </motion.div>
+            />
           ))}
         </div>
       )}
