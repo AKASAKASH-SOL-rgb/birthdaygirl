@@ -89,7 +89,7 @@ export default function Phase7Shatter({ onComplete }) {
       setMsgIndex(i => (i + 1) % empoweringMessages.length)
     }, 4200)
 
-    const t = setTimeout(() => setShowFinalBtn(true), 11000)
+    const t = setTimeout(() => setShowFinalBtn(true), 6500)
     return () => {
       clearInterval(msgTimerRef.current)
       clearTimeout(t)
@@ -290,34 +290,72 @@ export default function Phase7Shatter({ onComplete }) {
         ))}
       </AnimatePresence>
 
-      {/* Sleek Anime Reveal Finale Button */}
-      <AnimatePresence>
-        {showFinalBtn && (
-          <motion.div
-            className="absolute top-7 left-1/2 -translate-x-1/2 z-30"
-            initial={{ opacity: 0, y: -25, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.7, type: 'spring' }}
-          >
-            <motion.button
-              onClick={(e) => { e.stopPropagation(); onComplete() }}
-              className="px-8 py-3.5 rounded-xl font-mono text-xs md:text-sm tracking-[0.25em] text-white uppercase cursor-pointer"
-              style={{
-                background: 'linear-gradient(135deg, rgba(20, 10, 48, 0.85) 0%, rgba(10, 5, 30, 0.95) 100%)',
-                border: '1px solid rgba(251, 191, 36, 0.8)',
-                boxShadow: '0 0 35px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-              }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: '0 0 45px rgba(251, 191, 36, 0.75)',
-              }}
-              whileTap={{ scale: 0.96 }}
+      {/* Top Banner Alert: 'WAIT, DON'T LEAVE YET...' */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 max-w-[94vw] pointer-events-auto">
+        <AnimatePresence mode="wait">
+          {!showFinalBtn ? (
+            <motion.div
+              key="preparing"
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="flex flex-col items-center px-4 py-2 rounded-xl bg-black/70 backdrop-blur-xl border border-amber-400/40 shadow-[0_0_25px_rgba(251,191,36,0.25)]"
             >
-              ✦ REVEAL CELESTIAL SURPRISE ✦
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                <span className="text-[11px] md:text-xs font-mono font-bold tracking-[0.25em] text-amber-300 uppercase whitespace-nowrap">
+                  ✦ WAIT, DON'T LEAVE YET... ✦
+                </span>
+              </div>
+              <span className="text-[10px] font-mono tracking-widest text-slate-300/80 mt-0.5">
+                A final surprise is preparing...
+              </span>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="ready"
+              initial={{ opacity: 0, scale: 0.85, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 14 }}
+              className="flex flex-col items-center gap-2"
+            >
+              <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-950/60 border border-amber-400/60 backdrop-blur-xl shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+                <span className="text-amber-300 text-xs">✨</span>
+                <span className="text-[11px] md:text-xs font-mono font-bold tracking-[0.3em] uppercase text-amber-200">
+                  WAIT, DON'T LEAVE YET!
+                </span>
+                <span className="text-amber-300 text-xs">✨</span>
+              </div>
+
+              <motion.button
+                onClick={(e) => { e.stopPropagation(); onComplete() }}
+                className="px-8 py-3.5 rounded-xl font-mono text-xs md:text-sm tracking-[0.25em] text-white uppercase cursor-pointer relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(35, 15, 70, 0.9) 0%, rgba(15, 5, 40, 0.95) 100%)',
+                  border: '1.5px solid rgba(251, 191, 36, 0.9)',
+                  boxShadow: '0 0 35px rgba(251, 191, 36, 0.5), inset 0 1px 0 rgba(255,255,255,0.3)',
+                }}
+                animate={{
+                  boxShadow: [
+                    '0 0 25px rgba(251, 191, 36, 0.4)',
+                    '0 0 50px rgba(251, 191, 36, 0.9)',
+                    '0 0 25px rgba(251, 191, 36, 0.4)',
+                  ],
+                }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+                whileHover={{
+                  scale: 1.05,
+                  borderColor: '#ffffff',
+                  boxShadow: '0 0 55px rgba(251, 191, 36, 0.95)',
+                }}
+                whileTap={{ scale: 0.96 }}
+              >
+                🎂 TAP FOR THE FINAL SURPRISE 🎂
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
